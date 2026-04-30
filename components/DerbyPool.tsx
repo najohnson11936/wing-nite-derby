@@ -768,7 +768,7 @@ export default function DerbyPool() {
                   <div>
                     {/* Current results */}
                     <div style={{ marginBottom: 12 }}>
-                      {[1, 2, 3, 4, 5].map((n) => {
+                      {Array.from({ length: HORSES.length }, (_, i) => i + 1).map((n) => {
                         const r = results.find((x) => x.finish === n);
                         return (
                           <div key={n} style={{ fontSize: 14, color: "var(--cream)", marginBottom: 2 }}>
@@ -788,7 +788,7 @@ export default function DerbyPool() {
                         onChange={(e) => setAdminFinish(Number(e.target.value))}
                         style={{ background: "#000", border: "1px solid var(--gold)", color: "var(--cream)", fontFamily: "'VT323', monospace", fontSize: 18, padding: "3px 8px" }}
                       >
-                        {[1, 2, 3, 4, 5].map((n) => (
+                        {Array.from({ length: HORSES.length }, (_, i) => i + 1).map((n) => (
                           <option key={n} value={n}>{finishLabel(n)} PLACE</option>
                         ))}
                       </select>

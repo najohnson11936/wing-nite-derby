@@ -270,13 +270,18 @@ export default function DerbyPool() {
 
   const displayHorses = view === "pool" ? poolHorses : fullField;
 
-  const win  = results.find((r) => r.finish === 1);
-  const place = results.find((r) => r.finish === 2);
-  const show = results.find((r) => r.finish === 3);
-  const raceOver = !!(win || place || show);
+  // Pool standings: only participant horses, ranked by their actual finish position
+  const poolResults = [...results]
+    .filter((r) => participantFor(r.horse) !== null)
+    .sort((a, b) => a.finish - b.finish);
 
-  const marqueeText = win
-    ? `🏆 WINNER: ${win.horse} — ${participantFor(win.horse) ?? "—"} WINS $${PAYOUTS[1]}!! 🌹 ${place ? `PLACE: ${place.horse}` : ""} ${show ? `SHOW: ${show.horse}` : ""} 🌹 CONGRATULATIONS!! 🌹`
+  const poolWin   = poolResults[0];
+  const poolPlace = poolResults[1];
+  const poolShow  = poolResults[2];
+  const raceOver  = results.length > 0;
+
+  const marqueeText = poolWin
+    ? `🏆 POOL WIN: ${poolWin.horse} — ${participantFor(poolWin.horse)} WINS $${PAYOUTS[1]}!! 🌹 ${poolPlace ? `PLACE: ${poolPlace.horse} — ${participantFor(poolPlace.horse)} +$${PAYOUTS[2]}` : ""} ${poolShow ? `🌹 SHOW: ${poolShow.horse} — ${participantFor(poolShow.horse)} +$${PAYOUTS[3]}` : ""} 🌹 CONGRATULATIONS!! 🌹`
     : `🌹 WING NIGHT PRESENTS THE 2026 KENTUCKY DERBY POOL 🌹 10 PARTICIPANTS — $${TOTAL_POT} POT 🌹 WIN $${PAYOUTS[1]} / PLACE $${PAYOUTS[2]} / SHOW $${PAYOUTS[3]} 🌹 POST TIME: 6:57 PM ET — GOOD LUCK EVERYONE!! 🌹`;
 
   const leftAds  = ads.filter((_, i) => i % 3 === 0);
@@ -286,7 +291,8 @@ export default function DerbyPool() {
   function renderHorseCard(horse: Horse) {
     const participant = participantFor(horse.name);
     const result = results.find((r) => r.horse === horse.name);
-    const isWinner = result?.finish === 1;
+    const poolRank = poolResults.findIndex((r) => r.horse === horse.name); // 0=win,1=place,2=show,-1=none
+    const isWinner = poolRank === 0;
 
     return (
       <div
@@ -370,8 +376,8 @@ export default function DerbyPool() {
         {result && (
           <div
             style={{
-              background: result.finish === 1 ? "var(--gold)" : result.finish === 2 ? "#666" : "var(--bronze, #cd7f32)",
-              color: result.finish === 1 ? "var(--brown)" : "var(--white)",
+              background: poolRank === 0 ? "var(--gold)" : poolRank === 1 ? "#666" : poolRank === 2 ? "#cd7f32" : "var(--brown-light, #5a3e2b)",
+              color: poolRank === 0 ? "var(--brown)" : "var(--white)",
               fontFamily: "'Bungee', sans-serif",
               fontSize: 12,
               padding: "2px 8px",
@@ -380,9 +386,9 @@ export default function DerbyPool() {
               marginTop: participant ? 4 : 0,
             }}
           >
-            {finishLabel(result.finish)} PLACE
-            {result.finish <= 3 && participant
-              ? ` — +$${PAYOUTS[result.finish]}`
+            {finishLabel(result.finish)} IN RACE
+            {poolRank >= 0 && poolRank <= 2
+              ? ` — POOL ${finishLabel(poolRank + 1)} +$${PAYOUTS[poolRank + 1]}`
               : ""}
           </div>
         )}
@@ -492,7 +498,7 @@ export default function DerbyPool() {
                   boxShadow: "0 0 12px var(--gold-bright)",
                 }}
               >
-                🏆 {win ? `${win.horse} WINS — ${participantFor(win.horse) ?? "—"} TAKES $${PAYOUTS[1]}!!` : "RACE COMPLETE"}
+                🏆 {poolWin ? `${poolWin.horse} WINS THE POOL — ${participantFor(poolWin.horse)} TAKES $${PAYOUTS[1]}!!` : "RESULTS ENTERED"}
               </div>
             )}
           </header>
@@ -577,11 +583,12 @@ export default function DerbyPool() {
               </div>
               {[...results].sort((a, b) => a.finish - b.finish).map((r) => {
                 const participant = participantFor(r.horse);
-                const payout = r.finish <= 3 && participant ? PAYOUTS[r.finish] : null;
+                const pRank = poolResults.findIndex((p) => p.horse === r.horse);
+                const payout = pRank >= 0 && pRank <= 2 ? PAYOUTS[pRank + 1] : null;
                 const rowBg =
-                  r.finish === 1 ? "rgba(201,168,76,0.2)" :
-                  r.finish === 2 ? "rgba(170,170,170,0.15)" :
-                  r.finish === 3 ? "rgba(205,127,50,0.15)" :
+                  pRank === 0 ? "rgba(201,168,76,0.2)" :
+                  pRank === 1 ? "rgba(170,170,170,0.15)" :
+                  pRank === 2 ? "rgba(205,127,50,0.15)" :
                   "transparent";
                 const horse = HORSES.find((h) => h.name === r.horse);
                 return (
@@ -593,7 +600,7 @@ export default function DerbyPool() {
                       gap: 12,
                       padding: "8px 12px",
                       background: rowBg,
-                      borderLeft: `4px solid ${r.finish === 1 ? "var(--gold-bright)" : r.finish === 2 ? "#aaa" : r.finish === 3 ? "#cd7f32" : "transparent"}`,
+                      borderLeft: `4px solid ${pRank === 0 ? "var(--gold-bright)" : pRank === 1 ? "#aaa" : pRank === 2 ? "#cd7f32" : "transparent"}`,
                       marginBottom: 4,
                       flexWrap: "wrap",
                     }}
@@ -602,7 +609,7 @@ export default function DerbyPool() {
                       style={{
                         fontFamily: "'VT323', monospace",
                         fontSize: 20,
-                        color: r.finish === 1 ? "var(--gold-bright)" : r.finish === 2 ? "#aaa" : r.finish === 3 ? "#cd7f32" : "var(--cream)",
+                        color: pRank === 0 ? "var(--gold-bright)" : pRank === 1 ? "#aaa" : pRank === 2 ? "#cd7f32" : "var(--cream)",
                         minWidth: 42,
                       }}
                     >
@@ -642,7 +649,7 @@ export default function DerbyPool() {
           )}
 
           {/* ── PAYOUT DISPLAY ── */}
-          {(win || place || show) && (
+          {poolResults.length > 0 && (
             <div style={{ marginBottom: 24 }}>
               <div
                 style={{
@@ -654,19 +661,18 @@ export default function DerbyPool() {
                   marginBottom: 12,
                 }}
               >
-                💵 PAYOUTS
+                💵 POOL PAYOUTS
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {([win, place, show] as (RaceResult | undefined)[]).map((r, idx) => {
+                {([poolWin, poolPlace, poolShow] as (RaceResult | undefined)[]).map((r, idx) => {
                   if (!r) return null;
-                  const finishNum = idx + 1;
                   const participant = participantFor(r.horse);
                   if (!participant) return null;
                   const label = ["WIN", "PLACE", "SHOW"][idx];
                   const color = idx === 0 ? "var(--gold-bright)" : idx === 1 ? "#aaa" : "#cd7f32";
                   return (
                     <div
-                      key={finishNum}
+                      key={idx}
                       style={{
                         border: `2px solid ${color}`,
                         padding: "12px 20px",
@@ -678,13 +684,13 @@ export default function DerbyPool() {
                         {label}
                       </div>
                       <div style={{ fontFamily: "'VT323', monospace", color: "var(--gold-bright)", fontSize: 32, lineHeight: 1, marginBottom: 4 }}>
-                        ${PAYOUTS[finishNum]}
+                        ${PAYOUTS[idx + 1]}
                       </div>
                       <div style={{ fontFamily: "'Special Elite', serif", color: "var(--cream)", fontSize: 14 }}>
                         {participant}
                       </div>
                       <div style={{ fontSize: 12, color: "var(--gold)", opacity: 0.7, marginTop: 2 }}>
-                        ({r.horse})
+                        ({r.horse} — {finishLabel(r.finish)} in race)
                       </div>
                     </div>
                   );

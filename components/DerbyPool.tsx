@@ -1,14 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { HORSES, PARTICIPANTS, PAYOUTS, TOTAL_POT, ODDS_LAST_UPDATED, type Horse } from "@/lib/horses";
+import { HORSES, PARTICIPANTS, PAYOUTS, TOTAL_POT, ODDS_LAST_UPDATED, RACE_RESULTS, type Horse, type RaceResult } from "@/lib/horses";
 import type { Ad } from "@/app/api/ads/route";
-
-interface RaceResult {
-  finish: number;
-  horse: string;
-  post: number;
-}
 
 const ADMIN_PASSWORD = "roses2026";
 const STORAGE_KEY = "derby2026results";
@@ -171,7 +165,7 @@ function RotatingBanner({ ads, index }: { ads: Ad[]; index: number }) {
 }
 
 export default function DerbyPool() {
-  const [results, setResults] = useState<RaceResult[]>([]);
+  const [results, setResults] = useState<RaceResult[]>(RACE_RESULTS);
   const [showAdmin, setShowAdmin] = useState(false);
   const [adminCode, setAdminCode] = useState("");
   const [adminUnlocked, setAdminUnlocked] = useState(false);

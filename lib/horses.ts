@@ -48,6 +48,34 @@ export const PARTICIPANTS: Participant[] = [
   { name: "Todd",    horse: "Emerging Market"},
 ];
 
+export interface RaceResult {
+  finish: number;
+  horse: string;
+  post: number;
+}
+
+// Great White (post 21) — DNF, threw jockey before race
+export const RACE_RESULTS: RaceResult[] = [
+  { finish: 1,  horse: "Golden Tempo",    post: 19 },
+  { finish: 2,  horse: "Renegade",        post: 1  },
+  { finish: 3,  horse: "Ocelli",          post: 22 },
+  { finish: 4,  horse: "Chief Wallabee",  post: 12 },
+  { finish: 5,  horse: "Danon Bourbon",   post: 7  },
+  { finish: 6,  horse: "Incredibolt",     post: 11 },
+  { finish: 7,  horse: "Commandment",     post: 6  },
+  { finish: 8,  horse: "Wonder Dean",     post: 10 },
+  { finish: 9,  horse: "So Happy",        post: 8  },
+  { finish: 10, horse: "Emerging Market", post: 15 },
+  { finish: 11, horse: "Further Ado",     post: 18 },
+  { finish: 12, horse: "Potente",         post: 14 },
+  { finish: 13, horse: "Six Speed",       post: 17 },
+  { finish: 14, horse: "Robusta",         post: 23 },
+  { finish: 15, horse: "Albus",           post: 2  },
+  { finish: 16, horse: "Intrepido",       post: 3  },
+  { finish: 17, horse: "Litmus Test",     post: 4  },
+  { finish: 18, horse: "Pavlovian",       post: 16 },
+];
+
 export const ODDS_LAST_UPDATED = "May 2, 2026 — 7:00 PM ET";
 
 export const TOTAL_POT = 110;

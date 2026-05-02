@@ -178,11 +178,14 @@ export default function DerbyPool() {
   const [adminFinish, setAdminFinish] = useState(1);
   const [adminHorse, setAdminHorse] = useState(HORSES[0].name);
 
-  // Load results from localStorage
+  // Load results from localStorage, but only if results were actually saved there
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) setResults(JSON.parse(stored));
+      if (stored) {
+        const parsed: RaceResult[] = JSON.parse(stored);
+        if (parsed.length > 0) setResults(parsed);
+      }
     } catch { /* ignore */ }
   }, []);
 

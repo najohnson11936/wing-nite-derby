@@ -17,11 +17,9 @@ export const HORSES: Horse[] = [
   { post: 2,  name: "Albus",           jockey: "Manuel Franco",         trainer: "Riley Mott",       odds: "50-1", oddsNum: 50  },
   { post: 3,  name: "Intrepido",       jockey: "Hector Berrios",        trainer: "Jeff Mullins",     odds: "55-1", oddsNum: 55  },
   { post: 4,  name: "Litmus Test",     jockey: "Martin Garcia",         trainer: "Bob Baffert",      odds: "34-1", oddsNum: 34  },
-  { post: 5,  name: "Right to Party",  jockey: "Chris Elliott",         trainer: "Kenny McPeek",     odds: "26-1", oddsNum: 26  },
   { post: 6,  name: "Commandment",     jockey: "Luis Saez",             trainer: "Brad Cox",         odds: "7-1",  oddsNum: 7   },
   { post: 7,  name: "Danon Bourbon",   jockey: "Atsuya Nishimura",      trainer: "Manabu Ikezoe",    odds: "14-1", oddsNum: 14  },
   { post: 8,  name: "So Happy",        jockey: "Mike Smith",            trainer: "Mark Glatt",       odds: "6-1",  oddsNum: 6   },
-  { post: 9,  name: "The Puma",        jockey: "Javier Castellano",     trainer: "Gustavo Delgado",  odds: "8-1",  oddsNum: 8   },
   { post: 10, name: "Wonder Dean",     jockey: "Ryusei Sakai",          trainer: "Daisuke Takayanagi", odds: "20-1", oddsNum: 20 },
   { post: 11, name: "Incredibolt",     jockey: "Jaime Torres",          trainer: "Riley Mott",       odds: "27-1", oddsNum: 27  },
   { post: 12, name: "Chief Wallabee",  jockey: "Junior Alvarado",       trainer: "Bill Mott",        odds: "9-1",  oddsNum: 9   },
@@ -34,7 +32,6 @@ export const HORSES: Horse[] = [
   { post: 21, name: "Great White",     jockey: "Alex Achard",           trainer: "John Ennis",       odds: "29-1", oddsNum: 29  },
   { post: 22, name: "Ocelli",          jockey: "Joseph Ramos",          trainer: "D.W. Beckman",     odds: "50-1", oddsNum: 50  },
   { post: 23, name: "Robusta",         jockey: "Emisael Jaramillo",     trainer: "Doug O'Neill",     odds: "50-1", oddsNum: 50  },
-  { post: 24, name: "Corona De Oro",   jockey: "Brian Hernandez Jr.",   trainer: "Dallas Stewart",   odds: "50-1", oddsNum: 50  },
 ];
 
 export const PARTICIPANTS: Participant[] = [
@@ -51,7 +48,7 @@ export const PARTICIPANTS: Participant[] = [
   { name: "Todd",    horse: "Emerging Market"},
 ];
 
-export const ODDS_LAST_UPDATED = "May 2, 2026 — 9:00 AM ET";
+export const ODDS_LAST_UPDATED = "May 2, 2026 — 6:00 PM ET";
 
 export const TOTAL_POT = 110;
 

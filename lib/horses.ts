@@ -48,14 +48,15 @@ export const PARTICIPANTS: Participant[] = [
   { name: "Jay",     horse: "Litmus Test"    },
   { name: "Chris",   horse: "Renegade"       },
   { name: "Brendan", horse: "Commandment"    },
+  { name: "Todd",    horse: "Emerging Market"},
 ];
 
 export const ODDS_LAST_UPDATED = "May 2, 2026 — 9:00 AM ET";
 
-export const TOTAL_POT = 100;
+export const TOTAL_POT = 110;
 
 export const PAYOUTS: Record<number, number> = {
-  1: 70,
+  1: 80,
   2: 20,
   3: 10,
 };

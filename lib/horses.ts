@@ -48,7 +48,7 @@ export const PARTICIPANTS: Participant[] = [
   { name: "Todd",    horse: "Emerging Market"},
 ];
 
-export const ODDS_LAST_UPDATED = "May 2, 2026 — 6:00 PM ET";
+export const ODDS_LAST_UPDATED = "May 2, 2026 — 7:00 PM ET";
 
 export const TOTAL_POT = 110;
 
